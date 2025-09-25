@@ -24,7 +24,8 @@ export const getTrip = async (tripId: number): Promise<Trip | null> => {
     name: tripRes.rows[0].name,
     stops: [] as Stop[],
   };
-const stopsRes = await pool.query(
+
+  const stopsRes = await pool.query(
     `
     SELECT 
       s.id as stop_id, s.position,
@@ -57,15 +58,9 @@ export const deleteTrip = async (tripId: number) => {
 };
 
 
-export const getAllStops = async (tripId: number) => {
-  const result = await pool.query(`SELECT * FROM stops WHERE trip_id = $1 ORDER BY stop_order`, [tripId]);
-  return result.rows;
-}
-
-
 export const addStop = async (tripId: number, stopData: { cityId: number; }) => {
   const result = await pool.query(
-    `INSERT INTO stops (trip_id, city_id, stop_order) VALUES ($1, $2, (SELECT COALESCE(MAX(stop_order), 0) + 1 FROM stops WHERE trip_id = $1) ) RETURNING *`,
+    `INSERT INTO stops (trip_id, city_id, position) VALUES ($1, $2, (SELECT COALESCE(MAX(position), 0) + 1 FROM stops WHERE trip_id = $1) ) RETURNING *`,
     [tripId, stopData.cityId]
   );
   return result.rows[0];
@@ -89,8 +84,6 @@ export const deleteStop = async (stopId: number) => {
 
 
 export const reorderStops = async (tripId: number, newOrder: number[]) => {
-
-  
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -108,4 +101,11 @@ export const reorderStops = async (tripId: number, newOrder: number[]) => {
   } finally {
     client.release();
   }
+};
+
+
+export const getCityById = async (cityId: number): Promise<City | null> => {
+  const result = await pool.query(`SELECT * FROM cities WHERE id = $1`, [cityId]);
+  if (result.rows.length === 0) return null;
+  return result.rows[0];
 };

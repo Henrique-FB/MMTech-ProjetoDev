@@ -1,14 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+
 .empty-trip {
-    text-align: center;   /* centers text horizontally */
-    padding-left: 20rem;
-    padding-right: 20rem;
-    color: #666;
+  text-align: center;
+  padding: 2rem;
+  color: #7e7eff; /* soft purple accent */
+  font-size: 1.1rem;
+  font-weight: 500;
 }
+
+body {
+  font-family: 'Poppins', 'Helvetica', 'Arial', sans-serif;
+}
+/* make tripdetails fill available space */
+
 .trip-details {
   flex: 1;
+  min-height: 100vh;
   padding: 2rem;
-  background: #f9fafb;
-  border-left: 1px solid #e5e7eb;
+
+  /* glass background */
+  background: rgba(255, 255, 255, 0.6); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* subtle border */
+  border: 1px solid rgba(200, 200, 200, 0.4);
+
+  /* shadow for floating effect */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    /* existing glassmorphism styles... */
+  font-family: 'Poppins', 'Helvetica', 'Arial', sans-serif; /* clean modern sans-serif */
+  font-weight: 400;      
+  letter-spacing: 0.5px; 
+  line-height: 1.5;      
+}
+
+.trip
+
+.trip-details::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.trip-title {
+  font-size: 2rem;                /* larger, prominent */
+  font-weight: 600;               /* semi-bold */
+  letter-spacing: 0.5px;          /* modern spacing */
+  margin-bottom: 0.5rem;
+  color: #4f46e5;                 /* deep purple/blue accent */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* subtle depth */
+}
+
+.trip-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #7e5eff, #5ea3ff); /* gradient line */
+  border-radius: 2px;
+  margin-top: 0.5rem;
+}
+
+.trip-description {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1f2937;                 /* dark gray text */
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.trip-main {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.trip-map {
+  flex: 3;                     
+  background: #e0e7ff;         
+  border-radius: 12px;          
+  min-height: 400px;            
+  max-width: 50%;                  
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+  overflow: hidden;      
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.trip-map:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+
+.trip-stops {
+  margin-top: -5rem;
+  flex: 2;                     
+  display: flex;
+  flex-direction: column;
 }
 
 .stops-list {
@@ -17,15 +108,55 @@
   margin: 1rem 0;
 }
 
+/* Individual stop items */
 .stop-item {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: #fff;                     /* clean card look */
+  border: 1px solid #d0d0f0;           /* subtle border */
   border-radius: 8px;
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); /* soft shadow */
   cursor: grab;
+  transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
 }
+
 .stop-item:active {
   cursor: grabbing;
+  transform: scale(0.98);  /* subtle press effect */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stop-item:hover {
+  background: #f0f0ff;      /* slight hover tint */
+}
+
+/* Stop titles */
+.stop-item h3 {
+  color: #5ea3ff;           /* lighter blue accent */
+  margin: 0;
+}
+
+/* Stop descriptions or details */
+.stop-item p {
+  color: #333;
+  margin: 0.25rem 0 0;
+  line-height: 1.4;
+}
+
+/* Buttons inside trip details */
+.trip-details button {
+  background: linear-gradient(90deg, #7e5eff, #5ea3ff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.trip-details button:hover {
+  background: linear-gradient(90deg, #5ea3ff, #7e5eff);
+  transform: translateY(-1px);
 }

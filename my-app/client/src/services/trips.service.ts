@@ -33,19 +33,25 @@ export const getTrip = async (tripId: number): Promise<Trip> => {
   return res.json();
 }
 
+export const deleteTrip = async (tripId: number): Promise<void> => {
+  const res = await fetch(`http://localhost:5000/trips/${tripId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete trip");
+}
 
 
 // === STOPS ===
 
-
-
-
-export const getStopsForTrip = async (tripId: number): Promise<any[]> => {
+export const addStop = async (tripId: number, cityId: number): Promise<void> => {
   const res = await fetch(`http://localhost:5000/trips/${tripId}/stops`, {
-    method: "GET",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ cityId }),
   });
-  if (!res.ok) throw new Error("Failed to fetch stops");
-  return res.json();
+  if (!res.ok) throw new Error("Failed to add stop");
 };
 
 export const reorderStops = async (tripId: number, newOrder: number[]): Promise<void> => {

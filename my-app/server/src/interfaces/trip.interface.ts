@@ -1,13 +1,13 @@
 export interface Trip {
     id: number;
+    name: string;
     stops: Stop[];
 }
 
 export interface Stop {
     id: number;
-    trip_id: number;
     city: City;
-    stop_order: number;
+    position: number;
 }
 
 export interface City {

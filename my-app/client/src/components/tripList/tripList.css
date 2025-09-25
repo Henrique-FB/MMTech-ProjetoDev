@@ -1,0 +1,92 @@
+.trip-list {
+  width: 300px;
+  border-right: 1px solid #d0d0f0;
+  padding: 1rem;
+  overflow-y: auto;        /* allow scrolling */
+  background: #f7f7ff;
+  border-radius: 8px 0 0 8px;
+
+  /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.trip-list::-webkit-scrollbar {
+  width: 0;                 /* Chrome, Safari */
+  background: transparent;  /* optional: just in case */
+}
+
+/* List items */
+.trip-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, font-weight 0.2s;
+}
+
+.trip-list li.selected {
+  font-weight: bold;
+  background: linear-gradient(90deg, #7e5eff, #5ea3ff); /* gradient highlight */
+  color: white;
+}
+
+.trip-list li:not(.selected):hover {
+  background: #c4c4f1; /* light blue hover for unselected items */
+}
+
+.trip-list li.selected:hover {
+  background: linear-gradient(90deg, #9062ff, #6fb0ff); /* slightly brighter/darker gradient */
+  transform: translateY(-1px); /* subtle lift for effect */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* optional subtle shadow */
+}
+
+/* Trip name clickable */
+.trip-list .trip-name {
+  flex-grow: 1;
+}
+
+/* Delete button (small & subtle) */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #7e5eff;
+  font-size: 0.65rem;
+  font-weight: normal;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.5rem;
+  line-height: 1;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  opacity: 0.4;
+  transition: opacity 0.2s, color 0.2s, transform 0.1s;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  color: #42699c;
+  transform: scale(1.2);
+}
+
+/* Add button */
+.trip-list button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background: linear-gradient(90deg, #7e5eff, #5ea3ff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.trip-list button:hover {
+  background: linear-gradient(90deg, #5ea3ff, #7e5eff);
+}

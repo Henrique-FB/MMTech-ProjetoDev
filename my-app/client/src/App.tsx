@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import type { TripHeader } from "./types/trip.interface";
 import type { Trip } from "./types/trip.interface";
-import { getAllTripHeaders, createTrip, getTrip } from "./services/trips.service";
-import TripList from "./components/tripList";
+import { getAllTripHeaders, createTrip, getTrip, deleteTrip } from "./services/trips.service";
+import TripList from "./components/tripList/tripList";
 import TripDetails from "./components/tripDetails/tripDetails";
 
 export default function App() {
@@ -37,15 +37,28 @@ export default function App() {
     }
   };
 
+  const handleDeleteTrip = async (id: number) => {
+    try {
+      await deleteTrip(id);
+      setTripHeaders((prev) => prev.filter((trip) => trip.id !== id));
+      if (selectedTrip?.id === id) {
+        setSelectedTrip(null);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete trip");
+    }
+  };
+
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <div style={{ display: "flex", minHeight: "100vh", alignItems: "stretch" }}>
       <TripList
         trips={tripHeaders}
         selectedTripId={selectedTrip?.id ?? null}
         onSelectTrip={handleSelectTrip}
         onAddTrip={handleCreateTrip}
       />
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, display: "flex" }}>
         <TripDetails trip={selectedTrip} />
       </div>
     </div>

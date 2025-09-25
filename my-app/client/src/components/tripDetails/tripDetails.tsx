@@ -1,5 +1,5 @@
 import React, {useState, useEffect}  from "react";
-import "./TripDetails.css"
+import "./tripDetails.css"
 import type { Trip } from "../../types/trip.interface";
 
 import {
@@ -52,6 +52,7 @@ function StopItem({ stop }: { stop: any }) {
       <div style={{ fontSize: "0.9rem", color: "#4b5563" }}>
         Lat: {stop.city.latitude}, Lon: {stop.city.longitude}
       </div>
+      
     </li>
   );
 }
@@ -101,22 +102,34 @@ export default function TripDetails({ trip }: Props) {
 
 
 
-  return (
-    <div className="trip-details">
-      <h2>Trip #{trip.id}</h2>
-      <p>Number of stops: {stops.length}</p>
-      <h3>Stops:</h3>
+return (
+  <div className="trip-details">
+    <h2 className="trip-title">Trip #{trip.id}</h2>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={stops.map((s) => s.city.name)} strategy={verticalListSortingStrategy}>
-          <ul className="stops-list">
-            {stops.map((stop) => (
-              <StopItem key={stop.city.name} stop={stop} />
-            ))}
-          </ul>
-        </SortableContext>
-      </DndContext>
+    <div className="trip-description">
+      <p>Number of stops: {stops.length}</p>
     </div>
-  );
+
+    <div className="trip-main">
+      <div className="trip-map">
+        {/* Your map component/library goes here */}
+      </div>
+
+      <div className="trip-stops">
+        <h3>Stops:</h3>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={stops.map((s) => s.city.name)} strategy={verticalListSortingStrategy}>
+            <ul className="stops-list">
+              {stops.map((stop) => (
+                <StopItem key={stop.city.name} stop={stop} />
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>
+      </div>
+    </div>
+  </div>
+);
+
 
 }

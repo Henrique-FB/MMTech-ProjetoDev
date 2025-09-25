@@ -13,8 +13,6 @@ export interface Trip {
 export interface Stop {
     id: number;
     city: City;
-    latitude: number;
-    longitude: number;
     position: number;
 }
 
