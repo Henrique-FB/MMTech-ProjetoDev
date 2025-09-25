@@ -1,0 +1,31 @@
+.empty-trip {
+    text-align: center;   /* centers text horizontally */
+    padding-left: 20rem;
+    padding-right: 20rem;
+    color: #666;
+}
+.trip-details {
+  flex: 1;
+  padding: 2rem;
+  background: #f9fafb;
+  border-left: 1px solid #e5e7eb;
+}
+
+.stops-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.stop-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: grab;
+}
+.stop-item:active {
+  cursor: grabbing;
+}
