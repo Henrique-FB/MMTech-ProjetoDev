@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import type { TripHeader } from "./types/trip.interface";
 import type { Trip } from "./types/trip.interface";
-import { getAllTripHeaders, createTrip, getTrip, deleteTrip } from "./services/trips.service";
-import TripList from "./components/tripList/tripList";
-import TripDetails from "./components/tripDetails/tripDetails";
+import { getAllTripHeaders, createTrip, getTrip, deleteTrip } from "./services/api/trips.service";
+import TripList from "./pages/tripList/tripList";
+import TripDetails from "./pages/tripDetails/tripDetails";
+
+import * as tripService from "./services/api/trips.service";
 
 export default function App() {
   const [tripHeaders, setTripHeaders] = useState<TripHeader[]>([]);
@@ -14,7 +16,6 @@ export default function App() {
     getAllTripHeaders().then(setTripHeaders).catch(console.error);
   }, []);
 
-  // create a new trip
   const handleCreateTrip = async () => {
     try {
       const newTrip = await createTrip();
@@ -26,7 +27,6 @@ export default function App() {
     }
   };
 
-  // select a trip → fetch its full info
   const handleSelectTrip = async (id: number) => {
     try {
       const trip = await getTrip(id);
@@ -37,17 +37,10 @@ export default function App() {
     }
   };
 
-  const handleDeleteTrip = async (id: number) => {
-    try {
-      await deleteTrip(id);
-      setTripHeaders((prev) => prev.filter((trip) => trip.id !== id));
-      if (selectedTrip?.id === id) {
-        setSelectedTrip(null);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete trip");
-    }
+  const handleDeleteTrip = async (tripId: number) => {
+    await tripService.deleteTrip(tripId);
+    setTripHeaders((prev) => prev.filter((t) => t.id !== tripId));
+    setSelectedTrip((prev) => (prev?.id === tripId ? null : prev));
   };
 
   return (
@@ -59,7 +52,7 @@ export default function App() {
         onAddTrip={handleCreateTrip}
       />
       <div style={{ flex: 1, display: "flex" }}>
-        <TripDetails trip={selectedTrip} />
+        <TripDetails trip={selectedTrip} onDeleteTrip={handleDeleteTrip} setTripHeaders={setTripHeaders} />
       </div>
     </div>
   );

@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+
+.empty-trip {
+  text-align: center;
+  padding: 2rem;
+  color: #7e7eff; /* soft purple accent */
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+body {
+  font-family: 'Poppins', 'Helvetica', 'Arial', sans-serif;
+}
+/* make tripdetails fill available space */
+
+.trip-details {
+  position: relative;
+  flex: 1;
+  min-height: 100vh;
+  padding: 2rem;
+
+  background: rgba(255, 255, 255, 0.6); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(200, 200, 200, 0.4);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', 'Helvetica', 'Arial', sans-serif; /* clean modern sans-serif */
+  font-weight: 400;      
+  letter-spacing: 0.5px; 
+  line-height: 1.5;      
+}
+
+.trip-details::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.trip-description {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1f2937;                 /* dark gray text */
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.trip-main {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.trip-map {
+  flex: 3;                     
+  background: #e0e7ff;         
+  border-radius: 12px;          
+  min-height: 400px;            
+  max-width: 50%;                  
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+  overflow: hidden;      
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.trip-map:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.trip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.trip-config {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}

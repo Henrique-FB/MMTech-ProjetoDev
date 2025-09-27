@@ -2,7 +2,7 @@ import pool from "../config/db";
 import type { Trip, Stop, City } from "../interfaces/trip.interface";
 
 
-// createTrip
+// Trip functions
 export const createTrip = async () => {
   const result = await pool.query(
     `INSERT INTO trips DEFAULT VALUES RETURNING *`
@@ -29,9 +29,12 @@ export const getTrip = async (tripId: number): Promise<Trip | null> => {
     `
     SELECT 
       s.id as stop_id, s.position,
-      c.id as city_id, c.name as city_name, c.uf, c.latitude, c.longitude
+      c.id as city_id, c.name as city_name, c.uf_id, c.latitude, c.longitude,
+      state.id as uf_id, state.uf as uf_code, state.name as uf_name
+      
     FROM stops s
     JOIN cities c ON s.city_id = c.id
+    JOIN states state ON c.uf_id = state.id
     WHERE s.trip_id = $1
     ORDER BY s.position
     `,
@@ -44,7 +47,7 @@ export const getTrip = async (tripId: number): Promise<Trip | null> => {
     city: {
       id: row.city_id,
       name: row.city_name,
-      uf: row.uf,
+      uf: row.uf_code,
       latitude: row.latitude,
       longitude: row.longitude,
     },
@@ -57,6 +60,15 @@ export const deleteTrip = async (tripId: number) => {
   await pool.query(`DELETE FROM trips WHERE id = $1`, [tripId]);
 };
 
+export const renameTrip = async (tripId: number, newName: string) => {
+  const result = await pool.query(
+    `UPDATE trips SET name = $1 WHERE id = $2 RETURNING *`,
+    [newName, tripId]
+  );
+  return result.rows[0];
+};
+
+// Stop functions
 
 export const addStop = async (tripId: number, stopData: { cityId: number; }) => {
   const result = await pool.query(
@@ -66,15 +78,46 @@ export const addStop = async (tripId: number, stopData: { cityId: number; }) => 
   return result.rows[0];
 };
 
+export const getStopById = async (stopId: number): Promise<Stop | null> => {
+  // Fetch Stop and all info inside it from database
+  
+  const result = await pool.query(
+    `SELECT
+      s.id as stop_id, s.position, s.trip_id,
+      c.id as city_id, c.name as city_name, c.uf_id, c.latitude, c.longitude,
+      state.id as uf_id, state.uf as uf_code, state.name as uf_name
+    FROM stops s
+    JOIN cities c ON s.city_id = c.id
+    JOIN states state ON c.uf_id = state.id
+    WHERE s.id = $1
+    `,
+    [stopId]
+  );
+  if (result.rows.length === 0) return null;
+
+  const stop: Stop = {
+    id: result.rows[0].stop_id,
+    position: result.rows[0].position,
+    city: {
+      id: result.rows[0].city_id,
+      name: result.rows[0].city_name,
+      uf: result.rows[0].uf_code,
+      latitude: result.rows[0].latitude,
+      longitude: result.rows[0].longitude,
+    },
+  };
+
+  return stop;
+}
+
+
 export const deleteStop = async (stopId: number) => {
-  // First, get the trip_id of the stop to be deleted
   const result = await pool.query(`SELECT trip_id FROM stops WHERE id = $1`, [stopId]);
   const tripId = result.rows[0]?.trip_id;
 
-  // reorder remaining stops
   if (tripId) {
     await pool.query(
-      `UPDATE stops SET stop_order = stop_order - 1 WHERE trip_id = $1 AND stop_order > (SELECT stop_order FROM stops WHERE id = $2)`,
+      `UPDATE stops SET position = position - 1 WHERE trip_id = $1 AND position > (SELECT position FROM stops WHERE id = $2)`,
       [tripId, stopId]
     );
   }
@@ -103,6 +146,8 @@ export const reorderStops = async (tripId: number, newOrder: number[]) => {
   }
 };
 
+
+// City functions
 
 export const getCityById = async (cityId: number): Promise<City | null> => {
   const result = await pool.query(`SELECT * FROM cities WHERE id = $1`, [cityId]);

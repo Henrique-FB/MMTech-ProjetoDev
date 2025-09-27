@@ -50,6 +50,18 @@ export const deleteTrip = async (req: Request, res: Response) => {
   }
 };    
 
+export const renameTrip = async (req: Request, res: Response) => {
+  const tripId = parseInt(req.params.tripId, 10);
+  const { name } = req.body;
+  try {
+    const updatedTrip = await tripService.renameTrip(tripId, name);
+    res.status(200).json(updatedTrip);
+  } catch (error) {
+    console.error("Error renaming trip:", error);
+    res.status(500).json({ error: "Failed to rename trip" });
+  }
+};
+
 export const reorderStops = async (req: Request, res: Response) => {
   const tripId = parseInt(req.params.tripId, 10);
   const { stopOrder } = req.body; // Expecting an array of stop IDs in the new order
@@ -69,16 +81,17 @@ export const addStop = async (req: Request, res: Response) => {
   const tripId = parseInt(req.params.tripId, 10);
   const { cityId } = req.body;
   
+  console.log(tripId, cityId);
+
   try {
     const result = await tripService.addStop(tripId, { cityId });
 
-    const newStop: Stop = {
-      id: result.id,
-      city: await tripService.getCityById(result.city_id),
-      position: result.position,
-    };
+
+
+    const newStop: Stop = await tripService.getStopById(result.id);
 
     res.status(201).json(newStop);
+    console.log(newStop);
   } catch (error) {
     console.error("Error adding stop:", error);
     res.status(500).json({ error: "Failed to add stop" });
@@ -87,6 +100,7 @@ export const addStop = async (req: Request, res: Response) => {
 
 export const deleteStop = async (req: Request, res: Response) => {
   const stopId = parseInt(req.params.stopId, 10);
+  console.log('test')
   try {
     await tripService.deleteStop(stopId);
     res.status(204).send();

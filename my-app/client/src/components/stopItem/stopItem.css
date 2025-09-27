@@ -1,0 +1,49 @@
+.stop-item {
+  background: #fff;   
+  border: 1px solid #d0d0f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: grab;
+  transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
+
+  max-width: 60%;
+}
+
+.stop-item:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stop-item:hover {
+  background: #f0f0ff;
+}
+
+.stop-item h3 {
+  color: #5ea3ff;
+  margin: 0;
+}
+
+.stop-item p {
+  color: #333;
+  margin: 0.25rem 0 0;
+  line-height: 1.4;
+}
+
+.delete-button {
+  font-size: 0.7rem;        /* smaller text */
+  line-height: 1;           /* remove extra spacing */
+  padding: 0.2rem 0.4rem;   /* very small padding */
+  height: 1.5rem;           /* sets fixed height */
+  min-width: 1.5rem;        /* keeps it roughly square */
+  background: #f0f0ff;      
+  color: #5e5eff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

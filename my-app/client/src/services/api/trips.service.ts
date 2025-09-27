@@ -1,11 +1,4 @@
-export interface Stop {
-  id: number;
-  cityName: string;
-  latitude: number;
-  longitude: number;
-}
-
-import type { Trip, TripHeader } from "../types/trip.interface";
+import type { Trip, TripHeader, Stop } from "../../types/trip.interface";
 
 // Fetch all trips
 export const getAllTripHeaders = async (): Promise<TripHeader[]> => {
@@ -40,10 +33,19 @@ export const deleteTrip = async (tripId: number): Promise<void> => {
   if (!res.ok) throw new Error("Failed to delete trip");
 }
 
-
+export const renameTrip = async (tripId: number, newName: string): Promise<void> => {
+  const res = await fetch(`http://localhost:5000/trips/${tripId}/rename`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ "name": newName }),
+  });
+  if (!res.ok) throw new Error("Failed to rename trip");
+}
 // === STOPS ===
 
-export const addStop = async (tripId: number, cityId: number): Promise<void> => {
+export const addStop = async (tripId: number, cityId: number): Promise<Stop> => {
   const res = await fetch(`http://localhost:5000/trips/${tripId}/stops`, {
     method: "POST",
     headers: {
@@ -52,7 +54,15 @@ export const addStop = async (tripId: number, cityId: number): Promise<void> => 
     body: JSON.stringify({ cityId }),
   });
   if (!res.ok) throw new Error("Failed to add stop");
+  return res.json();
 };
+
+export const deleteStop = async (tripId: number, stopId: number): Promise<void> => {
+  const res = await fetch(`http://localhost:5000/trips/${tripId}/stops/${stopId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete stop");
+}
 
 export const reorderStops = async (tripId: number, newOrder: number[]): Promise<void> => {
   const res = await fetch(`http://localhost:5000/trips/${tripId}/stops/reorder`, {
@@ -64,3 +74,4 @@ export const reorderStops = async (tripId: number, newOrder: number[]): Promise<
   });
   if (!res.ok) throw new Error("Failed to reorder stops");
 };
+
