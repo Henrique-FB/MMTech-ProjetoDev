@@ -1,6 +1,8 @@
 import pool from "../config/db";
 import type { Trip, Stop, City } from "../interfaces/trip.interface";
+import axios from "axios";
 
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 // Trip functions
 export const createTrip = async () => {
@@ -154,3 +156,77 @@ export const getCityById = async (cityId: number): Promise<City | null> => {
   if (result.rows.length === 0) return null;
   return result.rows[0];
 };
+
+export const getAllCities = async (): Promise<City[]> => {
+  // fetch uf name as well
+  const result = await pool.query(`
+    SELECT
+      c.id as id, c.name as name, c.uf_id, state.uf as uf, c.latitude as latitude, c.longitude as longitude
+    FROM cities c
+    JOIN states state ON c.uf_id = state.id
+    ORDER BY c.name
+  `);
+  return result.rows;
+};
+
+// Path functions
+
+
+export const updateTripPath = async (tripId: number) => {
+
+  console.log("UPDATING TRIP PATH")
+
+
+  const trip = await getTrip(tripId);
+  if (!trip) throw new Error("Trip not found");
+  const stops = trip.stops;
+  if (stops.length < 2) {
+    const result = await pool.query(
+      `UPDATE trips SET polyline_points = $1, full_distance = $2, full_duration = $3 WHERE id = $4 RETURNING *`,
+      [null, null, null, tripId]
+    );
+    return result.rows[0];
+  }
+
+  let origin = `${stops[0].city.latitude},${stops[0].city.longitude}`
+  let destination = `${stops[stops.length - 1].city.latitude},${stops[stops.length - 1].city.longitude}`
+  let waypoints = "";
+
+  if (stops.length > 2) {
+    waypoints = stops.slice(1, -1).map(stop => `${stop.city.latitude},${stop.city.longitude}`).join('|');
+  }
+
+  if (stops.length > 20){
+    throw new Error("Too many stops.");
+  }
+
+  const res = await axios.get("https://maps.googleapis.com/maps/api/directions/json", {
+    params: {
+      origin,
+      destination,
+      waypoints: waypoints || undefined,
+      key: GOOGLE_API_KEY,
+    },
+  });
+
+  const polylinePoints = res.data.routes[0].overview_polyline.points;
+  const fullDistance = res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.distance.value, 0);
+  const fullDuration = res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.duration.value, 0);
+
+
+  const result = await pool.query(
+    `UPDATE trips SET polyline_points = $1, full_distance = $2, full_duration = $3 WHERE id = $4 RETURNING *`,
+    [polylinePoints, fullDistance, fullDuration, tripId]
+  );
+  
+  return result.rows[0];
+}
+
+
+
+export const getTripPath = async (tripId: number) => {
+
+  const res = await pool.query(`SELECT polyline_points FROM trips WHERE id = $1`, [tripId]);
+
+  return res.rows[0];
+}

@@ -15,5 +15,6 @@ router.post("/:tripId/stops", tripController.addStop);
 router.delete("/:tripId/stops/:stopId", tripController.deleteStop);
 router.post("/:tripId/stops/reorder", tripController.reorderStops);
 
+router.get("/:tripId/path", tripController.getTripPath);
 
 export default router;

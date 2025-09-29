@@ -65,6 +65,7 @@ export const deleteStop = async (tripId: number, stopId: number): Promise<void> 
 }
 
 export const reorderStops = async (tripId: number, newOrder: number[]): Promise<void> => {
+
   const res = await fetch(`http://localhost:5000/trips/${tripId}/stops/reorder`, {
     method: "POST",
     headers: {
@@ -72,6 +73,21 @@ export const reorderStops = async (tripId: number, newOrder: number[]): Promise<
     },
     body: JSON.stringify({ "stopOrder": newOrder }),
   });
+
+  console.log("Reordering stops...");
+
+
   if (!res.ok) throw new Error("Failed to reorder stops");
 };
 
+// === PATH ===
+
+
+export const getTripPath = async (tripId: number): Promise<{points: string}> => {
+  console.log("Fetching trip path...");
+  const res = await fetch(`http://localhost:5000/trips/${tripId}/path`, {
+    method: "GET",
+  });
+  if (!res.ok) throw new Error("Failed to fetch trip path");
+  return res.json();
+}

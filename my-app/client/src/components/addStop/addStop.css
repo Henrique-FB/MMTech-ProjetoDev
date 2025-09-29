@@ -1,0 +1,76 @@
+.add-stop {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Input box */
+.add-stop input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #d0d0f0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.add-stop input:focus {
+  border-color: #7e5eff;
+  box-shadow: 0 0 4px rgba(126, 94, 255, 0.3);
+}
+
+/* Dropdown list */
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #d0d0f0;
+  border-radius: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown items */
+.autocomplete-list li {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+  color: #1a1a1a;
+}
+
+.autocomplete-list li:hover {
+  background: #f0f0ff;
+  color: #4f46e5;
+}
+
+/* Add button */
+.add-stop button {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #7e5eff, #5ea3ff);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.add-stop button:hover {
+  background: linear-gradient(90deg, #5ea3ff, #7e5eff);
+  transform: translateY(-1px);
+}

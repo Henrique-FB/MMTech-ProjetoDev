@@ -11,6 +11,8 @@ export default function App() {
   const [tripHeaders, setTripHeaders] = useState<TripHeader[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
+
+  
   // load all trip headers when app starts
   useEffect(() => {
     getAllTripHeaders().then(setTripHeaders).catch(console.error);

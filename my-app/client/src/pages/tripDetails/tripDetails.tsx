@@ -1,19 +1,45 @@
 import React, {useState, useEffect}  from "react";
 import "./tripDetails.css"
 import type { Trip } from "../../types/trip.interface";
+import type { Stop } from "../../types/trip.interface";
 import * as tripService from "../../services/api/trips.service";
 import TripTitle from "../../components/tripTitle/tripTitle";
 import TripList from "../../components/stopList/stopList";
 import TripConfig from "../../components/tripConfig/tripConfig";
+import type { TripHeader } from "../../types/trip.interface";
+import TripMap from "../../components/tripMap/tripMap";
 
 
 interface Props {
   trip: Trip | null;
   onDeleteTrip: (tripId: number) => void;
-  setTripHeaders: React.Dispatch<React.SetStateAction<{ id: number; name: string | null; }[]>>;
+  setTripHeaders: React.Dispatch<React.SetStateAction<TripHeader[]>>;
 }
 
+
 export default function TripDetails({ trip, onDeleteTrip, setTripHeaders }: Props) {
+
+
+
+  const [stops, setStops] = useState<Stop[]>(trip?.stops || []);
+  const [encodedRoute, setEncodedRoute] = useState<string>("");
+  const [coords, setCoords] = useState<[number, number][]>([]);
+
+
+
+
+  useEffect(() => {
+    if (trip) setStops(trip.stops);
+  }, [trip]);
+
+
+  useEffect(() => {
+    if (trip) {
+      tripService.getTripPath(trip.id).then((res) => setEncodedRoute(res.points));
+    }
+  }, [trip]);
+
+
   if (!trip) {
     return (
       <div className="empty-trip">
@@ -44,10 +70,10 @@ export default function TripDetails({ trip, onDeleteTrip, setTripHeaders }: Prop
 
       <div className="trip-main">
         <div className="trip-map">
-          {/* Map goes here */}
+          <TripMap trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} coords={coords} setCoords={setCoords} />
         </div>
 
-        <TripList trip={trip} />
+        <TripList trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} />
       </div>
     </div>
   );

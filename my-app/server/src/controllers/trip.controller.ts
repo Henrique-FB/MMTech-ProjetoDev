@@ -70,6 +70,7 @@ export const reorderStops = async (req: Request, res: Response) => {
 
   try {
     await tripService.reorderStops(tripId, stopOrder);
+    await tripService.updateTripPath(tripId);
     res.status(204).send();
   } catch (error) {
     console.error("Error reordering stops:", error);
@@ -85,10 +86,9 @@ export const addStop = async (req: Request, res: Response) => {
 
   try {
     const result = await tripService.addStop(tripId, { cityId });
-
-
-
     const newStop: Stop = await tripService.getStopById(result.id);
+    
+    await tripService.updateTripPath(tripId);
 
     res.status(201).json(newStop);
     console.log(newStop);
@@ -100,12 +100,46 @@ export const addStop = async (req: Request, res: Response) => {
 
 export const deleteStop = async (req: Request, res: Response) => {
   const stopId = parseInt(req.params.stopId, 10);
+  const tripId = parseInt(req.params.tripId, 10);
   console.log('test')
   try {
     await tripService.deleteStop(stopId);
+    await tripService.updateTripPath(tripId);
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting stop:", error);
     res.status(500).json({ error: "Failed to delete stop" });
+  }
+};
+
+
+export const getAllCities = async (req: Request, res: Response) => {
+  console.log("Fetching cities...");
+
+  try {
+    const cities: City[] = await tripService.getAllCities();
+    res.status(200).json(cities);
+  } catch (error) {
+    console.error("Error fetching cities:", error);
+    res.status(500).json({ error: "Failed to fetch cities" });
+  }
+};
+
+
+// Pathing using google maps API
+
+export const getTripPath = async (req: Request, res: Response) => {
+  const tripId = parseInt(req.params.tripId, 10);
+
+  try {
+    const result = await tripService.getTripPath(tripId);
+
+    // get list of latitudes and longitudes from result
+    const path = { points: result.polyline_points };
+    console.log(path);
+    res.status(200).json(path);
+  } catch (error) {
+    console.error("Error fetching trip path:", error);
+    res.status(500).json({ error: "Failed to fetch trip path" });
   }
 };
