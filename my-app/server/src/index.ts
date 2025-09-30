@@ -4,7 +4,6 @@ import tripRoutes from "./routes/trip.routes";
 import cityRoutes from "./routes/cities.routes";
 import type { Request, Response } from "express";
 
-
 const app = express();
 app.use(express.json());
 app.use(cors());

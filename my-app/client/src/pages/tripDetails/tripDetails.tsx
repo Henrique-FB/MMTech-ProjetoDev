@@ -20,11 +20,8 @@ export default function TripDetails({ trip, onDeleteTrip, setTripHeaders }: Prop
   const [stops, setStops] = useState<Stop[]>(trip?.stops || []);
   const [encodedRoute, setEncodedRoute] = useState<string>("");
   const [coords, setCoords] = useState<[number, number][]>([]);
-
   const [distances, setDistances] = useState<number[]>(trip?.full_distance || []);
   const [durations, setDurations] = useState<number[]>(trip?.full_duration || []);
-
-
   
   useEffect(() => {
     if (trip) {
@@ -66,16 +63,13 @@ export default function TripDetails({ trip, onDeleteTrip, setTripHeaders }: Prop
         />
         <TripConfig onDeleteTrip={() => onDeleteTrip(trip.id)} />
       </div>
+        <div className="trip-description"></div>
 
-      <div className="trip-description">
-
-      </div>
 
       <div className="trip-main">
         <div className="trip-map">
           <TripMap trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} coords={coords} setCoords={setCoords} distances={distances} durations={durations} />
         </div>
-
         <StopList trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} />
       </div>
     </div>

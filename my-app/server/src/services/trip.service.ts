@@ -160,7 +160,6 @@ export const getCityById = async (cityId: number): Promise<City | null> => {
 };
 
 export const getAllCities = async (): Promise<City[]> => {
-  // fetch uf name as well
   const result = await pool.query(`
     SELECT
       c.id as id, c.name as name, c.uf_id, state.uf as uf, c.latitude as latitude, c.longitude as longitude
