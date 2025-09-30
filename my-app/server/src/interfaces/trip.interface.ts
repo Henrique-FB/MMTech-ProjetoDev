@@ -2,6 +2,8 @@ export interface Trip {
     id: number;
     name: string;
     stops: Stop[];
+    full_duration: number[];
+    full_distance: number[];
 }
 
 export interface Stop {

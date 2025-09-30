@@ -1,4 +1,3 @@
-import React from "react";
 import type { TripHeader } from "../../types/trip.interface";
 import "./tripList.css"
 

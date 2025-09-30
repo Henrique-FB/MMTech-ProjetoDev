@@ -30,7 +30,6 @@ export default function TripList({ trip, stops, setStops, encodedRoute, setEncod
     setStops((prev) => prev.filter((s) => s.id !== stopId));
   }
 
-
   async function handleDragEnd(event: any) {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -40,9 +39,6 @@ export default function TripList({ trip, stops, setStops, encodedRoute, setEncod
 
     const newStops = arrayMove(stops, oldIndex, newIndex);
     const newOrder = newStops.map((s) => s.id);
-
-    // Run setStops only after the API call is successful
-
     tripService.reorderStops(trip.id, newOrder).then(() => {
           tripService.getTripPath(trip.id).then((res) => setEncodedRoute(res.points));
     });
@@ -59,12 +55,11 @@ export default function TripList({ trip, stops, setStops, encodedRoute, setEncod
           <ul className="stops-list">
             {stops.map((stop) => (
               <StopItem key={stop.id} stop={stop} onDelete={handleDeleteStop} />
+
             ))}
           </ul>
         </SortableContext>
       </DndContext>
-
-
     </div>
   );
 }

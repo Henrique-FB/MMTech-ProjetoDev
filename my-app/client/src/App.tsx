@@ -4,16 +4,12 @@ import type { Trip } from "./types/trip.interface";
 import { getAllTripHeaders, createTrip, getTrip, deleteTrip } from "./services/api/trips.service";
 import TripList from "./pages/tripList/tripList";
 import TripDetails from "./pages/tripDetails/tripDetails";
-
 import * as tripService from "./services/api/trips.service";
 
 export default function App() {
   const [tripHeaders, setTripHeaders] = useState<TripHeader[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
 
-
-  
-  // load all trip headers when app starts
   useEffect(() => {
     getAllTripHeaders().then(setTripHeaders).catch(console.error);
   }, []);

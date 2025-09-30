@@ -1,4 +1,4 @@
-import type { Trip, TripHeader, Stop, City } from "../../types/trip.interface";
+import type { City } from "../../types/trip.interface";
 
 export const getCities = async (): Promise<City[]> => {
     console.log("Fetching cities...");

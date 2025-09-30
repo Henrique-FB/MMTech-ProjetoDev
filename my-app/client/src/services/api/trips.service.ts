@@ -82,7 +82,6 @@ export const reorderStops = async (tripId: number, newOrder: number[]): Promise<
 
 // === PATH ===
 
-
 export const getTripPath = async (tripId: number): Promise<{points: string}> => {
   console.log("Fetching trip path...");
   const res = await fetch(`http://localhost:5000/trips/${tripId}/path`, {

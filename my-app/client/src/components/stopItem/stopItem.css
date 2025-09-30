@@ -7,7 +7,6 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: grab;
   transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
-
   max-width: 60%;
 }
 
@@ -33,17 +32,30 @@
 }
 
 .delete-button {
-  font-size: 0.7rem;        /* smaller text */
-  line-height: 1;           /* remove extra spacing */
-  padding: 0.2rem 0.4rem;   /* very small padding */
-  height: 1.5rem;           /* sets fixed height */
-  min-width: 1.5rem;        /* keeps it roughly square */
-  background: #f0f0ff;      
-  color: #5e5eff;
-  border: none;
-  border-radius: 4px;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  height: 1.6rem;
+  min-width: 1.6rem;
+
+  background: #f8f0f0;
+  color: #d33; /* red-ish text */
+  border: 1px solid #f0d0d0;
+  border-radius: 6px;
+
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.delete-button:hover {
+  background: #ffe5e5;
+  transform: scale(1.05);
+}
+
+.delete-button:active {
+  transform: scale(0.95);
+  background: #ffcccc;
 }

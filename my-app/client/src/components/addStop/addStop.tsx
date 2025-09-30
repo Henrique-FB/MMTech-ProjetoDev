@@ -29,11 +29,10 @@ export default function AddStop({ onAdd }: AddStopProps) {
     }
     const matches = cities
       .filter((c) => c.name.toLowerCase().includes(query.toLowerCase()))
-      .slice(0, 5); // max 5 items
+      .slice(0, 5);
     setFilteredCities(matches);
   }, [query, cities]);
 
-  // Hide dropdown if clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {

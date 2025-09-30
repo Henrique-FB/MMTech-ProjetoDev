@@ -8,6 +8,8 @@ export interface Trip {
   id: number;
   name: string;
   stops: Stop[];
+  full_distance: number[];
+  full_duration: number[];
 }
 
 export interface Stop {

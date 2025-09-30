@@ -53,12 +53,12 @@ body {
 
 .trip-map {
   flex: 3;                     
-  background: #e0e7ff;         
-  border-radius: 12px;          
-  min-height: 400px;            
-  max-width: 50%;                  
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
-  overflow: hidden;      
+  background: #e0e7ff;
+  border-radius: 12px;
+  min-height: 400px;
+  max-width: 70%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
   position: relative;
   transition: box-shadow 0.2s, transform 0.2s;
 }

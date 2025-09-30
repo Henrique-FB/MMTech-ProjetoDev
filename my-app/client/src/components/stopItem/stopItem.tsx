@@ -16,8 +16,6 @@ export default function StopItem({ stop, onDelete }: StopItemProps) {
     transition,
   };
 
-  //make the
-
   return (
     <li
       ref={setNodeRef}
@@ -31,12 +29,10 @@ export default function StopItem({ stop, onDelete }: StopItemProps) {
           {stop.city.name} ({stop.city.uf})
         </strong>
         <div style={{ fontSize: "0.9rem", color: "#4b5563" }}>
-          Lat: {stop.city.latitude}, Lon: {stop.city.longitude}
         </div>
       </div>
       <button className="delete-button" onClick={() => onDelete(stop.id)}>x</button>
     </div>
     </li>
-
   );
 }

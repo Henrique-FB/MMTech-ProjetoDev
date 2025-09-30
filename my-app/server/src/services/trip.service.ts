@@ -25,6 +25,8 @@ export const getTrip = async (tripId: number): Promise<Trip | null> => {
     id: tripRes.rows[0].id,
     name: tripRes.rows[0].name,
     stops: [] as Stop[],
+    full_duration: tripRes.rows[0].full_duration,
+    full_distance: tripRes.rows[0].full_distance,
   };
 
   const stopsRes = await pool.query(
@@ -183,7 +185,7 @@ export const updateTripPath = async (tripId: number) => {
   if (stops.length < 2) {
     const result = await pool.query(
       `UPDATE trips SET polyline_points = $1, full_distance = $2, full_duration = $3 WHERE id = $4 RETURNING *`,
-      [null, null, null, tripId]
+      [null, [0], [0], tripId]
     );
     return result.rows[0];
   }
@@ -210,19 +212,23 @@ export const updateTripPath = async (tripId: number) => {
   });
 
   const polylinePoints = res.data.routes[0].overview_polyline.points;
-  const fullDistance = res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.distance.value, 0);
-  const fullDuration = res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.duration.value, 0);
+  const list_of_distances = [res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.distance.value, 0)];
+  const list_of_durations = [res.data.routes[0].legs.reduce((sum: number, leg: any) => sum + leg.duration.value, 0)];
+
+  if (res.data.routes[0].legs.length > 1) {
+    list_of_distances.push(...res.data.routes[0].legs.map((leg: any) => leg.distance.value));
+    list_of_durations.push(...res.data.routes[0].legs.map((leg: any) => leg.duration.value));
+  }
+
 
 
   const result = await pool.query(
     `UPDATE trips SET polyline_points = $1, full_distance = $2, full_duration = $3 WHERE id = $4 RETURNING *`,
-    [polylinePoints, fullDistance, fullDuration, tripId]
+    [polylinePoints, list_of_distances, list_of_durations, tripId]
   );
   
   return result.rows[0];
 }
-
-
 
 export const getTripPath = async (tripId: number) => {
 
@@ -230,3 +236,4 @@ export const getTripPath = async (tripId: number) => {
 
   return res.rows[0];
 }
+

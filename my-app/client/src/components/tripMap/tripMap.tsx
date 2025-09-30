@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Stop, Trip } from "../../types/trip.interface";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { TripLegend } from "../mapLegend/mapLegend";
 import "leaflet/dist/leaflet.css";
 
 import polyline from "polyline";
 import { Polyline } from "react-leaflet";
 
-export default function TripMap({ trip, stops, setStops, encodedRoute, setEncodedRoute, coords, setCoords }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; encodedRoute: string; setEncodedRoute: React.Dispatch<React.SetStateAction<string>>; coords: [number, number][]; setCoords: React.Dispatch<React.SetStateAction<[number, number][]>> }) {
+export default function TripMap({ trip, stops, setStops,encodedRoute, setEncodedRoute, coords, setCoords, distances, durations }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; encodedRoute: string; setEncodedRoute: React.Dispatch<React.SetStateAction<string>>; coords: [number, number][]; setCoords: React.Dispatch<React.SetStateAction<[number, number][]>>; distances: number[]; durations: number[] }) {
 
     useEffect(() => {
         setStops(trip.stops);
@@ -16,6 +17,7 @@ export default function TripMap({ trip, stops, setStops, encodedRoute, setEncode
       if (encodedRoute) {
         const decoded = polyline.decode(encodedRoute) as [number, number][];
         setCoords(decoded);
+        console.log("Decoded coordinates:", decoded);
       }
       else{
         setCoords([]);
@@ -48,6 +50,7 @@ export default function TripMap({ trip, stops, setStops, encodedRoute, setEncode
           </Popup>
         </Marker>
       ))}
+        <TripLegend distances={distances} durations={durations} />
         <Polyline positions={coords} color="blue" />
         <RecenterMap stops={stops} />
     </MapContainer>

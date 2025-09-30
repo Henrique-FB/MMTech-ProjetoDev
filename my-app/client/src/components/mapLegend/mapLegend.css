@@ -1,0 +1,33 @@
+.trip-legend {
+  background: rgba(255, 255, 255, 0.70);
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-family: 'Arial', sans-serif;
+  font-size: 0.8rem;
+  color: #333;
+  max-height: 200px;
+  overflow-y: auto;
+  min-width: 150px;
+}
+
+.trip-legend-title {
+  margin: 0 0 6px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 2px;
+}
+
+.trip-legend-leg {
+  margin-bottom: 4px;
+  padding: 2px 0;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.trip-legend-leg:hover {
+  background: rgba(245, 245, 245, 0.7);
+}
