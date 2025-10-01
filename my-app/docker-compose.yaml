@@ -26,6 +26,7 @@ services:
       DB_PASSWORD: postgres
       DB_NAME: tripsdb
       DB_PORT: 5432
+      GOOGLE_API_KEY: your_google_api_key_here
 
   frontend:
     build: ./client
