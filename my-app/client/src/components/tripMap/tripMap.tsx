@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { Stop, Trip } from "../../types/trip.interface";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { TripLegend } from "../mapLegend/mapLegend";
@@ -7,7 +7,7 @@ import "leaflet/dist/leaflet.css";
 import polyline from "polyline";
 import { Polyline } from "react-leaflet";
 
-export default function TripMap({ trip, stops, setStops,encodedRoute, setEncodedRoute, coords, setCoords, distances, durations }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; encodedRoute: string; setEncodedRoute: React.Dispatch<React.SetStateAction<string>>; coords: [number, number][]; setCoords: React.Dispatch<React.SetStateAction<[number, number][]>>; distances: number[]; durations: number[] }) {
+export default function TripMap({ trip, stops, setStops,encodedRoute, coords, setCoords, distances, durations }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; encodedRoute: string; coords: [number, number][]; setCoords: React.Dispatch<React.SetStateAction<[number, number][]>>; distances: number[]; durations: number[] }) {
 
     useEffect(() => {
         setStops(trip.stops);

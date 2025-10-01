@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import type { Stop } from "../../types/trip.interface";
@@ -9,7 +9,7 @@ import StopItem from "../stopItem/stopItem";
 import AddStop from "../addStop/addStop";
 import "./stopList.css";
 
-export default function TripList({ trip, stops, setStops, encodedRoute, setEncodedRoute }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; encodedRoute: string; setEncodedRoute: React.Dispatch<React.SetStateAction<string>> }) {
+export default function TripList({ trip, stops, setStops, setEncodedRoute }: { trip: Trip; stops: Stop[]; setStops: React.Dispatch<React.SetStateAction<Stop[]>>; setEncodedRoute: React.Dispatch<React.SetStateAction<string>> }) {
 
   useEffect(() => {
     setStops(trip.stops);

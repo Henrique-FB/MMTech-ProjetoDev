@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import * as L from "leaflet";
-import "./MapLegend.css";
+import "./mapLegend.css";
 
 type TripLegendProps = {
   distances: number[];

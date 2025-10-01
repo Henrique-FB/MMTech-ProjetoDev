@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { TripHeader } from "./types/trip.interface";
 import type { Trip } from "./types/trip.interface";
-import { getAllTripHeaders, createTrip, getTrip, deleteTrip } from "./services/api/trips.service";
+import { getAllTripHeaders, createTrip, getTrip } from "./services/api/trips.service";
 import TripList from "./pages/tripList/tripList";
 import TripDetails from "./pages/tripDetails/tripDetails";
 import * as tripService from "./services/api/trips.service";

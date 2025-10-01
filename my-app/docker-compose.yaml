@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tripsdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: tripsdb
+      DB_PORT: 5432
+
+  frontend:
+    build: ./client
+    ports:
+      - "4173:4173"
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:

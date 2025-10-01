@@ -68,9 +68,9 @@ export default function TripDetails({ trip, onDeleteTrip, setTripHeaders }: Prop
 
       <div className="trip-main">
         <div className="trip-map">
-          <TripMap trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} coords={coords} setCoords={setCoords} distances={distances} durations={durations} />
+          <TripMap trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} coords={coords} setCoords={setCoords} distances={distances} durations={durations} />
         </div>
-        <StopList trip={trip} stops={stops} setStops={setStops} encodedRoute={encodedRoute} setEncodedRoute={setEncodedRoute} />
+        <StopList trip={trip} stops={stops} setStops={setStops} setEncodedRoute={setEncodedRoute} />
       </div>
     </div>
   );
